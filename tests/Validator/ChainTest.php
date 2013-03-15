@@ -25,4 +25,18 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($chain->reset()->isNumeric()->isValid());
     }
 
+
+    public function testOnValidationFailedEvent()
+    {
+        $chain = new Chain(1);
+        $isRunned = false;
+        $chain->addOnValidationFailedListener(function(Rule $rule) use(&$isRunned) {
+            $isRunned = true;
+        });
+
+        $this->assertFalse($isRunned);
+        $chain->isArray();
+        $this->assertTrue($isRunned);
+    }
+
 }

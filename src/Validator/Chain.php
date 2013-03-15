@@ -19,15 +19,21 @@ class Chain
 {
 
     /**
-     * @var mixed
-     */
-    protected $value;
-
-
-    /**
      * @var boolean
      */
     protected $isValid = true;
+
+
+    /**
+     * @var \Closure[]
+     */
+    protected $onValidationFailedListener = [];
+
+
+    /**
+     * @var mixed
+     */
+    protected $value;
 
 
     /**
@@ -40,13 +46,21 @@ class Chain
 
 
     /**
+     * @param callable $listener
+     */
+    public function addOnValidationFailedListener(\Closure $listener)
+    {
+        $this->onValidationFailedListener[] = $listener;
+    }
+
+
+    /**
      * @return Chain
      */
     public function isArray()
     {
         $this->run(function() {
-            $rule = new IsArray();
-            $this->setIsValid( $rule->validate($this->value) );
+            return new IsArray();
         });
 
         return $this;
@@ -70,8 +84,7 @@ class Chain
     public function isInteger()
     {
         $this->run(function() {
-            $rule = new IsInteger();
-            $this->setIsValid( $rule->validate($this->value) );
+            return new IsInteger();
         });
 
         return $this;
@@ -84,8 +97,7 @@ class Chain
     public function isNull()
     {
         $this->run(function() {
-            $rule = new IsNull();
-            $this->setIsValid( $rule->validate($this->value) );
+            return new IsNull();
         });
 
         return $this;
@@ -98,8 +110,7 @@ class Chain
     public function isNumeric()
     {
         $this->run(function() {
-            $rule = new IsNumeric();
-            $this->setIsValid( $rule->validate($this->value) );
+            return new IsNumeric();
         });
 
         return $this;
@@ -112,8 +123,7 @@ class Chain
     public function isObject()
     {
         $this->run(function() {
-            $rule = new IsObject();
-            $this->setIsValid( $rule->validate($this->value) );
+            return new IsObject();
         });
 
         return $this;
@@ -126,8 +136,7 @@ class Chain
     public function isString()
     {
         $this->run(function() {
-            $rule = new IsString();
-            $this->setIsValid( $rule->validate($this->value) );
+            return new IsString();
         });
 
         return $this;
@@ -144,6 +153,19 @@ class Chain
 
 
     /**
+     * @param Rule $rule
+     */
+    protected function onValidationFailed(Rule $rule)
+    {
+        // call all listender
+        foreach ($this->onValidationFailedListener as $listener)
+        {
+            $listener($rule);
+        }
+    }
+
+
+    /**
      * @return Chain
      */
     public function reset()
@@ -154,13 +176,30 @@ class Chain
 
 
     /**
-     * @param callable $callable
+     * @param callable $callable need to return an instance of Rule
+     * @throws \RuntimeException
      */
     protected function run(\Closure $callable)
     {
         if ($this->isValid())
         {
-            $callable();
+            /* @var Rule $rule */
+            $rule = $callable();
+
+            // check if $rule an instace of Rule
+            if (!($rule instanceof Rule))
+            {
+                throw new \RuntimeException('$callable need to return an inastance of Validator\Rule');
+            }
+
+            // validation
+            $this->setIsValid( $rule->validate($this->value) );
+
+            // if validation failed run the OnValidationFailed-Event
+            if (!$this->isValid())
+            {
+                $this->onValidationFailed($rule);
+            }
         }
     }
 
