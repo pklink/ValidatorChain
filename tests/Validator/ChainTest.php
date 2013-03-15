@@ -19,6 +19,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($chain->reset()->isValid());
         $this->assertTrue($chain->isString()->isValid());
         $this->assertFalse($chain->reset()->isArray()->isValid());
+        $this->assertFalse($chain->reset()->isObject()->isValid());
+        $this->assertFalse($chain->reset()->isInteger()->isValid());
+        $this->assertFalse($chain->reset()->isInt()->isValid());
     }
 
 }
