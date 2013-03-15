@@ -9,7 +9,10 @@ use Validator\Rule\IsInteger;
 use Validator\Rule\IsObject;
 use Validator\Rule\IsString;
 
-
+/**
+ * @author Pierre Klink <dev@klinks.info>
+ * @license MIT See LICENSE file for more information
+ */
 class Chain
 {
 

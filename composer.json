@@ -2,6 +2,7 @@
     "name": "pklink/ValidatorChain",
     "description": "Perform validation in a chain",
     "keywords": ["validation", "chain"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Pierre Klink",
