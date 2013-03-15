@@ -1,5 +1,5 @@
 {
-    "name": "pklink/ValidatorChain",
+    "name": "pklink/validator-chain",
     "description": "Perform validation in a chain",
     "keywords": ["validation", "chain"],
     "license": "MIT",
