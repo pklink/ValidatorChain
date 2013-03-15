@@ -1,0 +1,20 @@
+{
+    "name": "pklink/ValidatorChain",
+    "description": "Perform validation in a chain",
+    "keywords": ["validation", "chain"],
+    "authors": [
+        {
+            "name": "Pierre Klink",
+            "email": "dev@klinks.info"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Validator": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    }
+
+}
