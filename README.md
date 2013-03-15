@@ -81,7 +81,7 @@ or with code-coverage-report
 ```sh
 php composer.phar install --dev
 php vendor/bin/phpunit --coverage-html output tests/
-``
+```
 
 
 ## License
