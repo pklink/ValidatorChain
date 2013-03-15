@@ -39,4 +39,19 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($isRunned);
     }
 
+
+    public function testValidationFailedExceptionListener()
+    {
+        $chain = new Chain(1, ['throwExceptionOnFailure' => true]);
+
+        try {
+            $chain->isString();
+            $this->fail('expected exception was not thrown');
+        } catch (Exception $e) {
+            $this->assertTrue(true);
+        } catch (\Exception $e) {
+            $this->fail('unexpected exception was thrown');
+        }
+    }
+
 }

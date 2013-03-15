@@ -4,6 +4,7 @@
 namespace Validator;
 
 
+use Dotor\Dotor;
 use Validator\Rule\IsArray;
 use Validator\Rule\IsInteger;
 use Validator\Rule\IsNull;
@@ -12,6 +13,9 @@ use Validator\Rule\IsObject;
 use Validator\Rule\IsString;
 
 /**
+ * Available options:
+ *  'throwExceptionOnFailure' => will thrown a \Validator\Exception if a validation has failed (default: false)
+ *
  * @author Pierre Klink <dev@klinks.info>
  * @license MIT See LICENSE file for more information
  */
@@ -31,6 +35,12 @@ class Chain
 
 
     /**
+     * @var boolean
+     */
+    protected $throwExceptionOnFailure = false;
+
+
+    /**
      * @var mixed
      */
     protected $value;
@@ -38,9 +48,21 @@ class Chain
 
     /**
      * @param mixed $value
+     * @param array $options
      */
-    function __construct($value)
+    function __construct($value, array $options = [])
     {
+        $options = new Dotor($options);
+        $this->throwExceptionOnFailure = $options->getBoolean('throwExceptionOnFailure', false);
+
+        // throwExceptionOnFailure
+        if ($this->throwExceptionOnFailure)
+        {
+            $this->addOnValidationFailedListener(function() {
+                $this->validationFailedExceptionListener();
+            });
+        }
+
         $this->value = $value;
     }
 
@@ -213,6 +235,15 @@ class Chain
         {
             $this->isValid = $value;
         }
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    protected function validationFailedExceptionListener()
+    {
+        throw new Exception();
     }
 
 }
