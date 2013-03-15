@@ -6,6 +6,7 @@ namespace Validator;
 
 use Validator\Rule\IsArray;
 use Validator\Rule\IsInteger;
+use Validator\Rule\IsNumeric;
 use Validator\Rule\IsObject;
 use Validator\Rule\IsString;
 
@@ -65,6 +66,17 @@ class Chain
     public function isInteger()
     {
         $rule = new IsInteger();
+        $this->setIsValid( $rule->validate($this->value) );
+        return $this;
+    }
+
+
+    /**
+     * @return Chain
+     */
+    public function isNumeric()
+    {
+        $rule = new IsNumeric();
         $this->setIsValid( $rule->validate($this->value) );
         return $this;
     }
