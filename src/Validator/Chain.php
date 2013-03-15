@@ -14,7 +14,8 @@ use Validator\Rule\IsString;
 
 /**
  * Available options:
- *  'throwExceptionOnFailure' => will thrown a \Validator\Exception if a validation has failed (default: false)
+ *  'throwExceptionOnFailure' => will throw a \Validator\Exception if a validation has failed (default: false)
+ *  'stopValidationOnFailure' => will not perform any validation after a failure (default: true)
  *
  * @author Pierre Klink <dev@klinks.info>
  * @license MIT See LICENSE file for more information
@@ -37,6 +38,12 @@ class Chain
     /**
      * @var boolean
      */
+    protected $stopValidationOnFailure = true;
+
+
+    /**
+     * @var boolean
+     */
     protected $throwExceptionOnFailure = false;
 
 
@@ -54,6 +61,7 @@ class Chain
     {
         $options = new Dotor($options);
         $this->throwExceptionOnFailure = $options->getBoolean('throwExceptionOnFailure', false);
+        $this->stopValidationOnFailure = $options->getBoolean('stopValidationOnFailure', true);
 
         // throwExceptionOnFailure
         if ($this->throwExceptionOnFailure)
@@ -203,7 +211,7 @@ class Chain
      */
     protected function run(\Closure $callable)
     {
-        if ($this->isValid())
+        if ($this->isValid() || !$this->stopValidationOnFailure)
         {
             /* @var Rule $rule */
             $rule = $callable();
