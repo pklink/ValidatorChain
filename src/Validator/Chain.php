@@ -44,8 +44,11 @@ class Chain
      */
     public function isArray()
     {
-        $rule = new IsArray();
-        $this->setIsValid( $rule->validate($this->value) );
+        $this->run(function() {
+            $rule = new IsArray();
+            $this->setIsValid( $rule->validate($this->value) );
+        });
+
         return $this;
     }
 
@@ -66,8 +69,11 @@ class Chain
      */
     public function isInteger()
     {
-        $rule = new IsInteger();
-        $this->setIsValid( $rule->validate($this->value) );
+        $this->run(function() {
+            $rule = new IsInteger();
+            $this->setIsValid( $rule->validate($this->value) );
+        });
+
         return $this;
     }
 
@@ -77,8 +83,11 @@ class Chain
      */
     public function isNull()
     {
-        $rule = new IsNull();
-        $this->setIsValid( $rule->validate($this->value) );
+        $this->run(function() {
+            $rule = new IsNull();
+            $this->setIsValid( $rule->validate($this->value) );
+        });
+
         return $this;
     }
 
@@ -88,8 +97,11 @@ class Chain
      */
     public function isNumeric()
     {
-        $rule = new IsNumeric();
-        $this->setIsValid( $rule->validate($this->value) );
+        $this->run(function() {
+            $rule = new IsNumeric();
+            $this->setIsValid( $rule->validate($this->value) );
+        });
+
         return $this;
     }
 
@@ -99,8 +111,11 @@ class Chain
      */
     public function isObject()
     {
-        $rule = new IsObject();
-        $this->setIsValid( $rule->validate($this->value) );
+        $this->run(function() {
+            $rule = new IsObject();
+            $this->setIsValid( $rule->validate($this->value) );
+        });
+
         return $this;
     }
 
@@ -110,8 +125,11 @@ class Chain
      */
     public function isString()
     {
-        $rule = new IsString();
-        $this->setIsValid( $rule->validate($this->value) );
+        $this->run(function() {
+            $rule = new IsString();
+            $this->setIsValid( $rule->validate($this->value) );
+        });
+
         return $this;
     }
 
@@ -132,6 +150,18 @@ class Chain
     {
         $this->isValid = true;
         return $this;
+    }
+
+
+    /**
+     * @param callable $callable
+     */
+    protected function run(\Closure $callable)
+    {
+        if ($this->isValid())
+        {
+            $callable();
+        }
     }
 
 
