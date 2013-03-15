@@ -23,6 +23,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($chain->reset()->isInteger()->isValid());
         $this->assertFalse($chain->reset()->isInt()->isValid());
         $this->assertFalse($chain->reset()->isNumeric()->isValid());
+        $this->assertFalse($chain->reset()->isNull()->isValid());
     }
 
 
