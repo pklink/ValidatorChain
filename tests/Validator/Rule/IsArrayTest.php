@@ -21,6 +21,7 @@ class IsArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($instance->validate(new \SplFixedArray(4)));
         $this->assertTrue($instance->validate(array()));
         $this->assertTrue($instance->validate([]));
+        $this->assertFalse($instance->validate(null));
     }
 
 }

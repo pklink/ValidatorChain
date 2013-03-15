@@ -21,6 +21,7 @@ class IsIntegerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($instance->validate(new \SplFixedArray(4)));
         $this->assertFalse($instance->validate(array()));
         $this->assertFalse($instance->validate([]));
+        $this->assertFalse($instance->validate(null));
     }
 
 }
