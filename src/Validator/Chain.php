@@ -203,7 +203,7 @@ class Chain
     /**
      * @param Rule $rule
      */
-    protected function onValidationFailed(Rule $rule)
+    protected function notifyAllOnValidationFailureListener(Rule $rule)
     {
         // call all listener
         foreach ($this->onValidationFailedListener as $listener)
@@ -249,7 +249,7 @@ class Chain
             if (!$isValid)
             {
                 $this->addFailure($rule);
-                $this->onValidationFailed($rule);
+                $this->notifyAllOnValidationFailureListener($rule);
             }
         }
     }
