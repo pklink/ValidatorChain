@@ -91,4 +91,34 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Validator\Rule\IsString', $chain->getFailures()[0]);
     }
 
+
+    public function testMaximumLengthOf()
+    {
+        $chain = new Chain('123');
+
+        $this->assertTrue($chain->maximumLengthOf(3)->isValid());
+        $this->assertTrue($chain->maximumLengthOf(4)->isValid());
+        $this->assertFalse($chain->maximumLengthOf(2)->isValid());
+    }
+
+
+    public function testMinimumLengthOf()
+    {
+        $chain = new Chain('123');
+
+        $this->assertTrue($chain->minimumLengthOf(3)->isValid());
+        $this->assertTrue($chain->minimumLengthOf(2)->isValid());
+        $this->assertFalse($chain->minimumLengthOf(4)->isValid());
+    }
+
+
+    public function testLengthOf()
+    {
+        $chain = new Chain('123');
+
+        $this->assertTrue($chain->lengthOf(3)->isValid());
+        $this->assertFalse($chain->lengthOf(2)->isValid());
+        $this->assertFalse($chain->lengthOf(4)->isValid());
+    }
+
 }

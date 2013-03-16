@@ -201,6 +201,54 @@ class Chain
 
 
     /**
+     * @param integer $length
+     * @return Chain
+     */
+    public function lengthOf($length)
+    {
+        $this->run(function() use($length) {
+            $rule = new Rule\LengthOf();
+            $rule->setLength($length);
+            return $rule;
+        });
+
+        return $this;
+    }
+
+
+    /**
+     * @param integer $length
+     * @return Chain
+     */
+    public function maximumLengthOf($length)
+    {
+        $this->run(function() use($length) {
+            $rule = new Rule\MaximumLengthOf();
+            $rule->setLength($length);
+            return $rule;
+        });
+
+        return $this;
+    }
+
+
+    /**
+     * @param integer $length
+     * @return Chain
+     */
+    public function minimumLengthOf($length)
+    {
+        $this->run(function() use($length) {
+            $rule = new Rule\MinimumLengthOf();
+            $rule->setLength($length);
+            return $rule;
+        });
+
+        return $this;
+    }
+
+
+    /**
      * @param Rule $rule
      */
     protected function notifyAllOnValidationFailureListener(Rule $rule)
