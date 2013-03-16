@@ -18,6 +18,12 @@ class Chain
 {
 
     /**
+     * @var Rule[]
+     */
+    protected $failures = [];
+
+
+    /**
      * @var boolean
      */
     protected $isValid = true;
@@ -75,6 +81,15 @@ class Chain
     public function addOnValidationFailedListener(\Closure $listener)
     {
         $this->onValidationFailedListener[] = $listener;
+    }
+
+
+    /**
+     * @return Rule[]
+     */
+    public function getFailures()
+    {
+        return $this->failures;
     }
 
 
@@ -181,7 +196,7 @@ class Chain
      */
     protected function onValidationFailed(Rule $rule)
     {
-        // call all listender
+        // call all listener
         foreach ($this->onValidationFailedListener as $listener)
         {
             $listener($rule);
@@ -194,7 +209,8 @@ class Chain
      */
     public function reset()
     {
-        $this->isValid = true;
+        $this->isValid  = true;
+        $this->failures = [];
         return $this;
     }
 
@@ -216,12 +232,14 @@ class Chain
                 throw new \RuntimeException('$callable need to return an inastance of Validator\Rule');
             }
 
-            // validation
-            $this->setIsValid( $rule->validate($this->value) );
+            // validate
+            $isValid = $rule->validate($this->value);
+            $this->setIsValid($isValid);
 
-            // if validation failed run the OnValidationFailed-Event
-            if (!$this->isValid())
+            // if validation failed run the OnValidationFailed-Event and save rule
+            if (!$isValid)
             {
+                $this->failures[] = $rule;
                 $this->onValidationFailed($rule);
             }
         }

@@ -64,13 +64,31 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $chain->addOnValidationFailedListener(function($rule) use (&$failures) {
             $failures++;
         });
-        $chain->isString()->isArray();
+        $chain->isString()->isArray()->isInteger();
         $this->assertEquals(2, $failures);
 
         $chain->stopValidationOnFailure();
         $failures = 0;
-        $chain->reset()->isString()->isArray();
+        $chain->reset()->isString()->isArray()->isInt();
         $this->assertEquals(1, $failures);
+    }
+
+
+    public function testGetFailures()
+    {
+        $chain = new Chain(1, ['stopValidationOnFailure' => false]);
+
+        $chain->addOnValidationFailedListener(function($rule) use (&$failures) {});
+        $chain->isString()->isArray()->isInteger();
+        $this->assertEquals(2, count($chain->getFailures()));
+
+        $chain->stopValidationOnFailure();
+        $chain->reset()->isString()->isArray()->isInteger();
+        $this->assertEquals(1, count($chain->getFailures()));
+
+        $chain->stopValidationOnFailure();
+        $chain->reset()->isString()->isArray()->isInteger();
+        $this->assertInstanceOf('\Validator\Rule\IsString', $chain->getFailures()[0]);
     }
 
 }
