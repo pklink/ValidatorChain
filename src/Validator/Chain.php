@@ -20,13 +20,13 @@ class Chain
     /**
      * @var Rule[]
      */
-    protected $failures = [];
+    private $failures = [];
 
 
     /**
      * @var boolean
      */
-    protected $isValid = true;
+    private $isValid = true;
 
 
     /**
@@ -72,6 +72,15 @@ class Chain
         }
 
         $this->value = $value;
+    }
+
+
+    /**
+     * @param Rule $rule
+     */
+    public function addFailure(Rule $rule)
+    {
+        $this->failures[] = $rule;
     }
 
 
@@ -239,7 +248,7 @@ class Chain
             // if validation failed run the OnValidationFailed-Event and save rule
             if (!$isValid)
             {
-                $this->failures[] = $rule;
+                $this->addFailure($rule);
                 $this->onValidationFailed($rule);
             }
         }
@@ -247,6 +256,8 @@ class Chain
 
 
     /**
+     * $value will only be set if $this->isValid == true
+     *
      * @param mixed $value
      */
     protected function setIsValid($value)
