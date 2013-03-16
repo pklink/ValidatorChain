@@ -5,12 +5,6 @@ namespace Validator;
 
 
 use Dotor\Dotor;
-use Validator\Rule\IsArray;
-use Validator\Rule\IsInteger;
-use Validator\Rule\IsNull;
-use Validator\Rule\IsNumeric;
-use Validator\Rule\IsObject;
-use Validator\Rule\IsString;
 
 /**
  * Available options:
@@ -90,7 +84,7 @@ class Chain
     public function isArray()
     {
         $this->run(function() {
-            return new IsArray();
+            return new Rule\IsArray();
         });
 
         return $this;
@@ -114,7 +108,7 @@ class Chain
     public function isInteger()
     {
         $this->run(function() {
-            return new IsInteger();
+            return new Rule\IsInteger();
         });
 
         return $this;
@@ -127,7 +121,7 @@ class Chain
     public function isNull()
     {
         $this->run(function() {
-            return new IsNull();
+            return new Rule\IsNull();
         });
 
         return $this;
@@ -140,7 +134,7 @@ class Chain
     public function isNumeric()
     {
         $this->run(function() {
-            return new IsNumeric();
+            return new Rule\IsNumeric();
         });
 
         return $this;
@@ -153,7 +147,7 @@ class Chain
     public function isObject()
     {
         $this->run(function() {
-            return new IsObject();
+            return new Rule\IsObject();
         });
 
         return $this;
@@ -166,7 +160,7 @@ class Chain
     public function isString()
     {
         $this->run(function() {
-            return new IsString();
+            return new Rule\IsString();
         });
 
         return $this;
@@ -243,6 +237,21 @@ class Chain
         {
             $this->isValid = $value;
         }
+    }
+
+
+    /**
+     * @param bool $value
+     * @throws \InvalidArgumentException
+     */
+    public function stopValidationOnFailure($value = true)
+    {
+        if (!is_bool($value))
+        {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->stopValidationOnFailure = $value;
     }
 
 

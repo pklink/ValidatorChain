@@ -61,13 +61,16 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $chain = new Chain(1, ['stopValidationOnFailure' => false]);
 
         $failures = 0;
-        $chain->addOnValidationFailedListener(function($rule) use (&$failures){
+        $chain->addOnValidationFailedListener(function($rule) use (&$failures) {
             $failures++;
         });
-
         $chain->isString()->isArray();
-
         $this->assertEquals(2, $failures);
+
+        $chain->stopValidationOnFailure();
+        $failures = 0;
+        $chain->reset()->isString()->isArray();
+        $this->assertEquals(1, $failures);
     }
 
 }
