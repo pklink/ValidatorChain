@@ -107,11 +107,21 @@ class Chain
      */
     public function isArray()
     {
-        $this->run(function() {
-            return new Rule\IsArray();
-        });
+        if (!$this->isBroken())
+        {
+            $this->validate(new Rule\IsArray());
+        }
 
         return $this;
+    }
+
+
+    /**
+     * @return boolean
+     */
+    protected function isBroken()
+    {
+        return !$this->isValid() && $this->stopValidationOnFailure;
     }
 
 
@@ -131,9 +141,10 @@ class Chain
      */
     public function isInteger()
     {
-        $this->run(function() {
-            return new Rule\IsInteger();
-        });
+        if (!$this->isBroken())
+        {
+            $this->validate(new Rule\IsInteger());
+        }
 
         return $this;
     }
@@ -144,9 +155,10 @@ class Chain
      */
     public function isNull()
     {
-        $this->run(function() {
-            return new Rule\IsNull();
-        });
+        if (!$this->isBroken())
+        {
+            $this->validate(new Rule\IsNull());
+        }
 
         return $this;
     }
@@ -157,9 +169,10 @@ class Chain
      */
     public function isNumeric()
     {
-        $this->run(function() {
-            return new Rule\IsNumeric();
-        });
+        if (!$this->isBroken())
+        {
+            $this->validate(new Rule\IsNumeric());
+        }
 
         return $this;
     }
@@ -170,9 +183,10 @@ class Chain
      */
     public function isObject()
     {
-        $this->run(function() {
-            return new Rule\IsObject();
-        });
+        if (!$this->isBroken())
+        {
+            $this->validate(new Rule\IsObject());
+        }
 
         return $this;
     }
@@ -183,9 +197,10 @@ class Chain
      */
     public function isString()
     {
-        $this->run(function() {
-            return new Rule\IsString();
-        });
+        if (!$this->isBroken())
+        {
+            $this->validate(new Rule\IsString());
+        }
 
         return $this;
     }
@@ -206,11 +221,12 @@ class Chain
      */
     public function lengthOf($length)
     {
-        $this->run(function() use($length) {
+        if (!$this->isBroken())
+        {
             $rule = new Rule\LengthOf();
             $rule->setLength($length);
-            return $rule;
-        });
+            $this->validate($rule);
+        }
 
         return $this;
     }
@@ -222,11 +238,12 @@ class Chain
      */
     public function maximumLengthOf($length)
     {
-        $this->run(function() use($length) {
+        if (!$this->isBroken())
+        {
             $rule = new Rule\MaximumLengthOf();
             $rule->setLength($length);
-            return $rule;
-        });
+            $this->validate($rule);
+        }
 
         return $this;
     }
@@ -238,11 +255,12 @@ class Chain
      */
     public function minimumLengthOf($length)
     {
-        $this->run(function() use($length) {
+        if (!$this->isBroken())
+        {
             $rule = new Rule\MinimumLengthOf();
             $rule->setLength($length);
-            return $rule;
-        });
+            $this->validate($rule);
+        }
 
         return $this;
     }
@@ -273,37 +291,6 @@ class Chain
 
 
     /**
-     * @param callable $callable need to return an instance of Rule
-     * @throws \RuntimeException
-     */
-    protected function run(\Closure $callable)
-    {
-        if ($this->isValid() || !$this->stopValidationOnFailure)
-        {
-            /* @var Rule $rule */
-            $rule = $callable();
-
-            // check if $rule an instace of Rule
-            if (!($rule instanceof Rule))
-            {
-                throw new \RuntimeException('$callable need to return an inastance of Validator\Rule');
-            }
-
-            // validate
-            $isValid = $rule->validate($this->value);
-            $this->setIsValid($isValid);
-
-            // if validation failed run the OnValidationFailed-Event and save rule
-            if (!$isValid)
-            {
-                $this->addFailure($rule);
-                $this->notifyAllOnValidationFailureListener($rule);
-            }
-        }
-    }
-
-
-    /**
      * $value will only be set if $this->isValid == true
      *
      * @param mixed $value
@@ -329,6 +316,28 @@ class Chain
         }
 
         $this->stopValidationOnFailure = $value;
+    }
+
+
+    /**
+     * @param Rule $rule
+     */
+    protected function validate(Rule $rule)
+    {
+        // run test only if chain is not broken
+        if (!$this->isBroken())
+        {
+            // validate
+            $isValid = $rule->validate($this->value);
+            $this->setIsValid($isValid);
+
+            // if validation failed run the OnValidationFailed-Event and save rule
+            if (!$isValid)
+            {
+                $this->addFailure($rule);
+                $this->notifyAllOnValidationFailureListener($rule);
+            }
+        }
     }
 
 
