@@ -129,6 +129,31 @@ $chain->stopValidationOnFailure(); // set this option to true
 ```
 
 
+## Listener for failures
+
+You can add Closures to get notifications on failures.
+
+```php
+$chain = new \Validator\Chain('value');
+
+$chain->addValidationFailureListener(function() {
+    echo 'failure';
+});
+
+$chain->isInteger();
+```
+
+This example will output: `failure`
+
+If you like you can use the failed `\Validator\Rule` in your listener
+
+```php
+$chain->addValidationFailureListener(function(\Validation\Rule $rule) {
+    echo get_class($rule);
+});
+```
+
+
 ## Run Tests
 
 You can use PHPUnit from the vendor-folder.
