@@ -31,7 +31,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
     {
         $chain = new Chain(1);
         $isRunned = false;
-        $chain->addOnValidationFailedListener(function(Rule $rule) use(&$isRunned) {
+        $chain->addValidationFailureListener(function(Rule $rule) use(&$isRunned) {
             $isRunned = true;
         });
 
@@ -74,7 +74,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $chain = new Chain(1, ['stopValidationOnFailure' => false]);
 
         $failures = 0;
-        $chain->addOnValidationFailedListener(function($rule) use (&$failures) {
+        $chain->addValidationFailureListener(function($rule) use (&$failures) {
             $failures++;
         });
         $chain->isString()->isArray()->isInteger();
@@ -91,7 +91,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
     {
         $chain = new Chain(1, ['stopValidationOnFailure' => false]);
 
-        $chain->addOnValidationFailedListener(function($rule) use (&$failures) {});
+        $chain->addValidationFailureListener(function($rule) use (&$failures) {});
         $chain->isString()->isArray()->isInteger();
         $this->assertEquals(2, count($chain->getFailures()));
 

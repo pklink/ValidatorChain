@@ -32,7 +32,7 @@ class Chain
     /**
      * @var \Closure[]
      */
-    protected $onValidationFailedListener = [];
+    protected $validationFailureListener = [];
 
 
     /**
@@ -79,9 +79,9 @@ class Chain
     /**
      * @param callable $listener
      */
-    public function addOnValidationFailedListener(\Closure $listener)
+    public function addValidationFailureListener(\Closure $listener)
     {
-        $this->onValidationFailedListener[] = $listener;
+        $this->validationFailureListener[] = $listener;
     }
 
 
@@ -306,7 +306,7 @@ class Chain
     protected function notifyAllOnValidationFailureListener(Rule $rule)
     {
         // call all listener
-        foreach ($this->onValidationFailedListener as $listener)
+        foreach ($this->validationFailureListener as $listener)
         {
             $listener($rule);
         }
