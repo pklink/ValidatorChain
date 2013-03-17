@@ -13,6 +13,18 @@ use Validator\Rule;
 abstract class AbtractImpl implements Rule
 {
 
+    /**
+     * @param array $options
+     */
+    public function __construct(array $options = [])
+    {
+        $this->setOptions($options);
+    }
+
+
+    /**
+     * @param array $options
+     */
     public function setOptions(array $options)
     {
         foreach ($options as $option => $value)
