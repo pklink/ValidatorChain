@@ -63,14 +63,6 @@ class Chain
         $this->throwExceptionOnFailure = $options->getBoolean('throwExceptionOnFailure', false);
         $this->stopValidationOnFailure = $options->getBoolean('stopValidationOnFailure', true);
 
-        // throwExceptionOnFailure
-        if ($this->throwExceptionOnFailure)
-        {
-            $this->addOnValidationFailedListener(function() {
-                $this->validationFailedExceptionListener();
-            });
-        }
-
         $this->value = $value;
     }
 
@@ -309,6 +301,7 @@ class Chain
 
     /**
      * @param Rule $rule
+     * @throws Exception
      */
     protected function notifyAllOnValidationFailureListener(Rule $rule)
     {
@@ -316,6 +309,11 @@ class Chain
         foreach ($this->onValidationFailedListener as $listener)
         {
             $listener($rule);
+        }
+
+        if ($this->throwExceptionOnFailure)
+        {
+            throw new Exception();
         }
     }
 
@@ -379,15 +377,6 @@ class Chain
                 $this->notifyAllOnValidationFailureListener($rule);
             }
         }
-    }
-
-
-    /**
-     * @throws Exception
-     */
-    protected function validationFailedExceptionListener()
-    {
-        throw new Exception();
     }
 
 }
