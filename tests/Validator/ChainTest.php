@@ -121,4 +121,24 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($chain->lengthOf(4)->isValid());
     }
 
+
+    public function testHasKey()
+    {
+        $chain = new Chain(['index' => 'blblb']);
+
+        $this->assertFalse($chain->hasKey('')->isValid());
+        $this->assertFalse($chain->reset()->hasKey('bla')->isValid());
+        $this->assertFalse($chain->reset()->hasKey('array')->isValid());
+        $this->assertFalse($chain->reset()->hasKey(123213)->isValid());
+        $this->assertFalse($chain->reset()->hasKey(-12131)->isValid());
+        $this->assertFalse($chain->reset()->hasKey(0x21F124)->isValid());
+        $this->assertFalse($chain->reset()->hasKey(new \stdClass())->isValid());
+        $this->assertFalse($chain->reset()->hasKey(new \SplFixedArray(4))->isValid());
+        $this->assertFalse($chain->reset()->hasKey(array())->isValid());
+        $this->assertFalse($chain->reset()->hasKey([])->isValid());
+        $this->assertFalse($chain->reset()->hasKey('bla')->isValid());
+        $this->assertTrue($chain->reset()->hasKey('index')->isValid());
+        $this->assertFalse($chain->reset()->hasKey(null)->isValid());
+    }
+
 }

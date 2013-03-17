@@ -5,6 +5,7 @@ namespace Validator;
 
 
 use Dotor\Dotor;
+use Validator\Rule\HasKey;
 
 /**
  * Available options:
@@ -99,6 +100,21 @@ class Chain
     public function getFailures()
     {
         return $this->failures;
+    }
+
+
+    /**
+     * @param string|integer $key
+     * @return Chain
+     */
+    public function hasKey($key)
+    {
+        if (!$this->isBroken())
+        {
+            $this->validate(new HasKey(['key' => $key]));
+        }
+
+        return $this;
     }
 
 
