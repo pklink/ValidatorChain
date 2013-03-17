@@ -253,8 +253,7 @@ class Chain
     {
         if (!$this->isBroken())
         {
-            $rule = new Rule\LengthOf();
-            $rule->setLength($length);
+            $rule = new Rule\LengthOf(['length' => $length]);
             $this->validate($rule);
         }
 
@@ -270,8 +269,7 @@ class Chain
     {
         if (!$this->isBroken())
         {
-            $rule = new Rule\MaximumLengthOf();
-            $rule->setLength($length);
+            $rule = new Rule\MaximumLengthOf(['length' => $length]);
             $this->validate($rule);
         }
 
@@ -287,8 +285,7 @@ class Chain
     {
         if (!$this->isBroken())
         {
-            $rule = new Rule\MinimumLengthOf();
-            $rule->setLength($length);
+            $rule = new Rule\MinimumLengthOf(['length' => $length]);
             $this->validate($rule);
         }
 
