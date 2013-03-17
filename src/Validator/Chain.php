@@ -5,7 +5,6 @@ namespace Validator;
 
 
 use Dotor\Dotor;
-use Validator\Rule\HasKey;
 
 /**
  * Available options:
@@ -111,7 +110,22 @@ class Chain
     {
         if (!$this->isBroken())
         {
-            $this->validate(new HasKey(['key' => $key]));
+            $this->validate(new Rule\HasKey(['key' => $key]));
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @param array $keys
+     * @return $this
+     */
+    public function hasKeys(array $keys)
+    {
+        if (!$this->isBroken())
+        {
+            $this->validate(new Rule\HasKeys(['keys' => $keys]));
         }
 
         return $this;

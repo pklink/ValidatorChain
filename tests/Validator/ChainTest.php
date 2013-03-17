@@ -142,6 +142,18 @@ class ChainTest extends \PHPUnit_Framework_TestCase
     }
 
 
+    public function testHasKeys()
+    {
+        $chain = new Chain(['index' => 'blblb', 'key' => 'asdasdas']);
+
+        $this->assertTrue($chain->reset()->hasKeys([])->isValid());
+        $this->assertTrue($chain->reset()->hasKeys(['key'])->isValid());
+        $this->assertTrue($chain->reset()->hasKeys(['index'])->isValid());
+        $this->assertTrue($chain->reset()->hasKeys(['key', 'index'])->isValid());
+        $this->assertFalse($chain->reset()->hasKeys(['key', 'index', 'bla'])->isValid());
+    }
+
+
     public function testIsScalar()
     {
         $chain = new Chain('asdasd');
