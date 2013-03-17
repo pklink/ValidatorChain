@@ -13,11 +13,13 @@ use Validator\Rule;
 class IsScalar extends AbtractImpl
 {
 
-
+    /**
+     * @param mixed $value
+     * @return boolean
+     */
     public function validate($value)
     {
         return is_scalar($value);
     }
-
 
 }

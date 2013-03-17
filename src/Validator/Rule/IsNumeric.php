@@ -13,11 +13,13 @@ use Validator\Rule;
 class IsNumeric extends AbtractImpl
 {
 
-
+    /**
+     * @param mixed $value
+     * @return boolean
+     */
     public function validate($value)
     {
         return is_numeric($value);
     }
-
 
 }

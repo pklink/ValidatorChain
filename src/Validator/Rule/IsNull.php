@@ -13,11 +13,13 @@ use Validator\Rule;
 class IsNull extends AbtractImpl
 {
 
-
+    /**
+     * @param mixed $value
+     * @return boolean
+     */
     public function validate($value)
     {
         return is_null($value);
     }
-
 
 }

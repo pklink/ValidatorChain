@@ -30,7 +30,7 @@ class MinimumLengthOf extends AbtractImpl
 
     /**
      * @param mixed $value
-     * @return bool
+     * @return boolean
      */
     public function validate($value)
     {

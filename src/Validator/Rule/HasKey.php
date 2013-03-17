@@ -41,5 +41,4 @@ class HasKey extends AbtractImpl
         return $isArray->validate($value) && $isScalar->validate($key) && array_key_exists($this->key, $value);
     }
 
-
 }
