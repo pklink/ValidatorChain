@@ -222,7 +222,7 @@ Alias for isInteger()
 
 
 
-### Add your own rule
+## Add your own rule
 
 
 
