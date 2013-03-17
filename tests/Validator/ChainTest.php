@@ -34,6 +34,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $chain->addValidationFailureListener(function(Rule $rule) use(&$isRunned) {
             $isRunned = true;
         });
+        $chain->addValidationFailureListener(function() use(&$isRunned) {
+            $isRunned = true;
+        });
 
         $this->assertFalse($isRunned);
         $chain->isArray();
