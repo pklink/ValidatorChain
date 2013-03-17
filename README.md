@@ -5,6 +5,9 @@
 A library to perform several validations in a chain.
 
 
+
+
+
 ## Installation
 
 Install `ValidationChain` with Composer
@@ -30,6 +33,9 @@ Finally include Composers autoloader
 ```php
 include __DIR__ . '/vendor/autoload.php';
 ```
+
+
+
 
 
 ## Basic Usage
@@ -67,6 +73,24 @@ Alternatively you can use this in one statement:
 ```
 
 
+
+### Reset chain
+
+Use `reset()` to reset your chain.
+
+```php
+$chain = new \Validator\Chain('value');
+
+$chain->isInteger()->isString()->isValid(); // returns false
+$chain->isValid();                          // returns false
+$chain->isString()->isValid();              // returns false
+$chain->reset()->isString()->isValid();     // returns true
+```
+
+
+
+
+
 ## Options
 
 You can set different options with instantiation or the setter for the appropriate option.
@@ -74,6 +98,7 @@ You can set different options with instantiation or the setter for the appropria
 ```php
 $chain = new \Validator\Chain('value', ['option' => 'value']);
 ```
+
 
 
 ### throwExceptionOnFailure
@@ -129,6 +154,9 @@ $chain->stopValidationOnFailure(); // set this option to true
 ```
 
 
+
+
+
 ## Listener for failures
 
 You can add Closures to get notifications on failures.
@@ -154,6 +182,52 @@ $chain->addValidationFailureListener(function(\Validation\Rule $rule) {
 ```
 
 
+
+
+
+## Rules
+
+
+### hasKey()
+
+### hasKeys()
+
+### isArray()
+
+### isInteger()
+
+### isInt()
+
+Alias for isInteger()
+
+### isNull()
+
+### isNull()
+
+### isNumeric()
+
+### isObject()
+
+### isScalar()
+
+### isString()
+
+### lengthOf( int $length )
+
+### maximumLengthOf( int $length )
+
+### minumumLengthOf( int $length )
+
+
+
+
+
+### Add your own rule
+
+
+
+
+
 ## Run Tests
 
 You can use PHPUnit from the vendor-folder.
@@ -169,6 +243,9 @@ or with code-coverage-report
 php composer.phar install --dev
 php vendor/bin/phpunit --coverage-html output tests/
 ```
+
+
+
 
 
 ## License
