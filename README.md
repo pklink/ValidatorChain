@@ -32,7 +32,7 @@ include __DIR__ . '/vendor/autoload.php';
 ```
 
 
-## Usage
+## Basic Usage
 
 Create an instance of `Chain` with the value you like to check
 
@@ -64,6 +64,68 @@ Alternatively you can use this in one statement:
     ->isInteger()
     ->isArray()
     ->isValid()
+```
+
+
+## Options
+
+You can set different options with instantiation or the setter for the appropriate option.
+
+```php
+$chain = new \Validator\Chain('value', ['option' => 'value']);
+```
+
+
+### throwExceptionOnFailure
+
+If this option is set to `true` then `Chain` will throw a `Validator\Exception` if a validation failed.
+
+Default is set to `false`
+
+```php
+$chain = new \Validator\Chain('value', ['throwExceptionOnFailure' => true]);
+
+try {
+    $chain
+        ->isString()         // everything fine
+        ->minimumLengthOf(2) // everything fine
+        ->isArray()          // \Validator\Exception will be thrown
+        ->isArray();         // will not perform
+} catch (\Validator\Excetion $e) {
+    echo 'validation failed!';
+}
+```
+
+The setter for this option is `throwExceptionOnFailure()`
+
+```php
+$chain->throwExceptionOnFailure(true);
+$chain->throwExceptionOnFailure(false);
+$chain->throwExceptionOnFailure(); // set this option to true
+```
+
+
+### stopValidationOnFailure
+
+If this option is set to `true` then `Chain` will not perform any further validation.
+
+Default is set to `true`
+
+```php
+$chain = new \Validator\Chain('value', ['stopValidationOnFailure' => true]);
+
+$chain
+    ->isString()    // everthing fine
+    ->isArray()     // validation fail
+    ->isInteger();  // will not perform
+```
+
+The setter for this option is `stopValidationOnFailure()`
+
+```php
+$chain->stopValidationOnFailure(true);
+$chain->stopValidationOnFailure(false);
+$chain->stopValidationOnFailure(); // set this option to true
 ```
 
 
