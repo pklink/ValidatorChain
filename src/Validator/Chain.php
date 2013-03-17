@@ -211,6 +211,20 @@ class Chain
     /**
      * @return Chain
      */
+    public function isScalar()
+    {
+        if (!$this->isBroken())
+        {
+            $this->validate(new Rule\IsScalar());
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Chain
+     */
     public function isString()
     {
         if (!$this->isBroken())

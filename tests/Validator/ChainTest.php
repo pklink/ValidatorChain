@@ -141,4 +141,20 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($chain->reset()->hasKey(null)->isValid());
     }
 
+
+    public function testIsScalar()
+    {
+        $chain = new Chain('asdasd');
+        $this->assertTrue($chain->isScalar()->isValid());
+
+        $chain = new Chain(12312);
+        $this->assertTrue($chain->isScalar()->isValid());
+
+        $chain = new Chain([]);
+        $this->assertFalse($chain->isScalar()->isValid());
+
+        $chain = new Chain(new \stdClass());
+        $this->assertFalse($chain->isScalar()->isValid());
+    }
+
 }
