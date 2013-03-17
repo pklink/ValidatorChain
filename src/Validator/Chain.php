@@ -344,7 +344,8 @@ class Chain
 
 
     /**
-     * @param bool $value
+     * @param boolean $value
+     * @return Chain
      * @throws \InvalidArgumentException
      */
     public function stopValidationOnFailure($value = true)
@@ -355,6 +356,24 @@ class Chain
         }
 
         $this->stopValidationOnFailure = $value;
+        return $this;
+    }
+
+
+    /**
+     * @param boolean $value
+     * @return Chain
+     * @throws \InvalidArgumentException
+     */
+    public function throwExceptionOnFailure($value = true)
+    {
+        if (!is_bool($value))
+        {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->throwExceptionOnFailure = $value;
+        return $this;
     }
 
 
