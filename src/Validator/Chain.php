@@ -70,7 +70,7 @@ class Chain
     /**
      * @param Rule $rule
      */
-    public function addFailure(Rule $rule)
+    protected function addFailure(Rule $rule)
     {
         $this->failures[] = $rule;
     }
