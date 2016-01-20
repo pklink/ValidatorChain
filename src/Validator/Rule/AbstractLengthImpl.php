@@ -32,6 +32,6 @@ abstract class AbstractLengthImpl extends AbstractImpl
      * @param mixed $value
      * @return boolean
      */
-    public abstract function validate($value);
+    abstract public function validate($value);
 
 }
