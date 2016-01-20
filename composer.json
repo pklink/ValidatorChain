@@ -16,10 +16,10 @@
     },
     "require": {
         "php": ">=5.4.0",
-        "pklink/dotor": "~1.1.0"
+        "pklink/dotor": "~2.0.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.3.5"
+        "phpunit/phpunit": "~5.1.0"
     }
 
 }
