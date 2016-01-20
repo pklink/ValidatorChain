@@ -1,11 +1,7 @@
-# ValidatorChain
-[![Build Status](https://travis-ci.org/pklink/ValidatorChain.png?branch=master)](https://travis-ci.org/pklink/ValidatorChain)
+# ValidatorChain [![Build Status](https://travis-ci.org/pklink/ValidatorChain.png?branch=master)](https://travis-ci.org/pklink/ValidatorChain)
+
 
 A library to perform several validations in a chain.
-
-
-
-
 
 ## Installation
 
