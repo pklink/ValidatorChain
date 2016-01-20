@@ -10,7 +10,7 @@ use Validator\Rule;
  * @author Pierre Klink <dev@klinks.info>
  * @license MIT See LICENSE file for more information
  */
-class IsInteger extends AbtractImpl
+class IsInteger extends AbstractImpl
 {
 
     /**
