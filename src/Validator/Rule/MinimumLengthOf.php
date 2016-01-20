@@ -10,23 +10,8 @@ use Validator\Rule;
  * @author Pierre Klink <dev@klinks.info>
  * @license MIT See LICENSE file for more information
  */
-class MinimumLengthOf extends AbtractImpl
+class MinimumLengthOf extends AbstractLengthImpl
 {
-
-    /**
-     * @var integer
-     */
-    protected $length = 0;
-
-
-    /**
-     * @param integer $length
-     */
-    public function setLength($length)
-    {
-        $this->length = $length;
-    }
-
 
     /**
      * @param mixed $value
