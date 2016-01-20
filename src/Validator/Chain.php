@@ -57,7 +57,7 @@ class Chain
      * @param mixed $value
      * @param array $options
      */
-    function __construct($value, array $options = [])
+    public function __construct($value, array $options = [])
     {
         $options = new Dotor($options);
         $this->throwExceptionOnFailure = $options->getBoolean('throwExceptionOnFailure', false);
@@ -77,7 +77,7 @@ class Chain
 
 
     /**
-     * @param callable $listener
+     * @param \Closure $listener
      */
     public function addValidationFailureListener(\Closure $listener)
     {

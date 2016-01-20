@@ -14,7 +14,7 @@ class HasKey extends AbtractImpl
 {
 
     /**
-     * @var string
+     * @var string|integer
      */
     public $key;
 
